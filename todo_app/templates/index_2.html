@@ -1,0 +1,16 @@
+{% block content %}
+<h1>TODO APP</h1>
+<hr>
+<form action="/" method="POST">
+  <ul style="list-style: none" >
+    {% for card in ls %}
+    <li> 
+    <input type= "submit" name = "submit_button" class ="form-control" value =  "{{ card.get("name") }}"  > 
+    </li>
+    {% endfor %}
+  </ul>
+</form>
+
+{% endblock %}
+
+
