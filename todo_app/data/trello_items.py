@@ -1,24 +1,8 @@
 # -*- coding: utf-8 -*-
-from telnetlib import STATUS
-from turtle import update
 import requests
 import os
 import json
 from flask import Flask, render_template, request, redirect, session
-
-app = Flask(__name__)
-app = Flask(__name__, template_folder='../templates')
-
-os.environ['TRELLO_TOKEN'] = "9cc5e1de416f419f2f1b3f5effda1d8bd01fde1e2f7291d656629b05633c708c"
-token = os.getenv('TRELLO_TOKEN')
-
-os.environ['TRELLO_KEY'] = "d59b47daa0229f97284d969ff1c3fd84"
-key = os.getenv('TRELLO_KEY')
-
-url = "https://api.trello.com/1/"
-
-url_member = url + "members/carispang"
-query_string = {"key" : key, "token" : token}
 
 def get_board_lists(url, query_string):
     url_board_lists = url + "boards/" + "w71XY2GF" + "/lists"
@@ -32,38 +16,47 @@ def get_list(name, data_board_lists):
             todoId = list['id']
             return todoId
 
-def createCard(url, list_id, card_name):
+def create_card(url, list_id, card_name, key, token):
     url = url + "cards"
     query_string = {"name": card_name, "idList": list_id, "key": key, "token": token}
     response = requests.request("POST", url, params=query_string)
     card_id = response.json()["id"]
     return card_id
 
-def update_list(url, card_ID, done_ID):
+def update_list(url, card_ID, done_ID, key, token):
     query_string = {"idList": done_ID, "key": key, "token": token}
     url_board_cards = url + "cards/" + card_ID
     response = requests.request("PUT", url_board_cards, params=query_string)
 
-def getCardNames(data_board_cards):
+def get_card_names(data_board_cards):
     cardNames = []
     for card in data_board_cards:
         cardNames.append({"name": card['name']})
     return cardNames
 
-def getCardIDFromName(cardName, data_board_cards):
-
+def get_card_ID_from_name(cardName, data_board_cards):
     for card in data_board_cards:
         nameCard = card['name']
         if cardName == nameCard:
             cardID = card['id']
             return(cardID)
 
-def get_data_board_cards(url, query_string):
+def get_cards_on_list(url, list_ID, query_string):
+    url_list_of_cards = url + "lists/" + list_ID + "/cards"
+    response_list_cards = requests.request("GET", url_list_of_cards, params = query_string)
+    data_cards_lists = json.loads(response_list_cards.text)
+    cards = []
+    for i in data_cards_lists:
+        cards.append({"name": i['name']})
+    return cards
 
+
+def get_data_board_cards(url, query_string):
     url_board_cards = url + "boards/" + "w71XY2GF" + "/cards"
     response_board_cards = requests.request("GET", url_board_cards, params = query_string)
     data_board_cards = json.loads(response_board_cards.text)    
     return data_board_cards
+    
 def get_list_name(ID, data_board_lists):
     for list in data_board_lists:
         if list['id'] == ID:
@@ -73,9 +66,8 @@ def get_list_name(ID, data_board_lists):
 def get_card_info(data_board_cards):
     card_info = []
     for card in data_board_cards:
-        card_info.append({"name": card['name'], "id": getCardIDFromName(card['name'], data_board_cards)})
+        card_info.append({"name": card['name'], "id": get_card_ID_from_name(card['name'], data_board_cards)})
     return card_info
-
 
 def get_list_info(data_board_cards):
     list_info = []
@@ -83,9 +75,7 @@ def get_list_info(data_board_cards):
         list_info.append({"name" : get_list_name(j['idList'], data_board_lists)})
     return list_info
 
-
 def get_listForLoop(card_info, list_info):
-
     new_list = []
     index = 0
     for i in card_info:
@@ -93,44 +83,21 @@ def get_listForLoop(card_info, list_info):
         new_list.append(item)
         index += 1
     return new_list
-
-data_board_cards = get_data_board_cards(url, query_string)
-data_board_lists = get_board_lists(url, query_string)
-todo_ID = get_list('To Do', data_board_lists)
-in_progress_ID = get_list('In Progress', data_board_lists)
-done_ID = get_list('Done', data_board_lists)
-task_4_ID = createCard(url, todo_ID, "task 4")  
-
-@app.route('/', methods = ['GET', 'POST'])
-def createUI():
-    card_names = getCardNames(data_board_cards)
-    if request.method == 'POST':
-        card_ID = getCardIDFromName(str(request.form['submit_button']), data_board_cards)
-        update_list(url, card_ID, done_ID)
-        return redirect(request.url)
-    return render_template('index_2.html', ls = card_names)
+    
+def complete_method(data_board_cards, url, done_ID, key, token):
+      item_to_complete = str(request.form.get('complete_button'))
+      card_ID = get_card_ID_from_name(item_to_complete, data_board_cards)
+      update_list(url, card_ID, done_ID, key, token)
+      
 
 class ItemClass():
 
-  def __init__(self, id, title, status):
+   def __init__(self, id, title, status):
         self.id = id
         self.status = status
         self.title = title
 
-  @classmethod
-  def from_trello_card(cls, card, list):
-      return cls(card['id'], card['name'], list['name'])
-
-
-@app.route('/ExerciseFive')
-def exercise_five():
-
-    card_info = get_card_info(data_board_cards)
-    list_info = get_list_info(data_board_cards)
-    new_list = get_listForLoop(card_info, list_info)
-    cardNames = getCardNames(data_board_cards)
-    
-    return render_template('index_3.html', ls = new_list)
-
-app.run()
+   @classmethod
+   def from_trello_card(cls, card, list):
+       return cls(card['id'], card['name'], list['name'])
 

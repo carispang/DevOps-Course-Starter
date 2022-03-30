@@ -7,22 +7,21 @@
 <form action="/" method="POST">
   <div class = 'todo-list' >
     <label>Title</label>
-    <input type= "text" name = "name" class ="form-control">
+    <input type= "text" name = "submit_button" class ="form-control">
     </div>
   <button class="favorite styled"
         type="submit">
     Add to list
   </button>
 </form>
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-        <ul style="list-style: none" >
-          {% for item in ls %}
-          <li> {{ item['title'] }} </li>
-          {% endfor %}
-        </ul>
-    </div>
-  </div>
+<form action="/" method="POST">
+  <ul style="list-style: none" >
+    {% for card in ls %}
+    <li> 
+    <input type= "submit" name = "complete_button" class = "form-control" value =  "{{ card.get('name') }}"  > 
+    </li>
+    {% endfor %}
+  </ul>
+</form>
 {% endblock %}
 
