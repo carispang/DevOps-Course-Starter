@@ -4,8 +4,8 @@ import os
 import json
 from flask import Flask, render_template, request, redirect, session
 
-def get_board_lists(url, query_string):
-    url_board_lists = url + "boards/" + "w71XY2GF" + "/lists"
+def get_board_lists(url, query_string, board_ID):
+    url_board_lists = url + "boards/" + board_ID + "/lists"
     response_board_lists = requests.request("GET", url_board_lists, params = query_string)
     data_board_lists = json.loads(response_board_lists.text)
     return(data_board_lists)

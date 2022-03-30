@@ -1,5 +1,5 @@
+#!
 from flask import Flask, appcontext_popped, render_template, redirect, request
-#from data.session_items import get_items, add_item
 from flask_config import Config
 from dotenv import load_dotenv, find_dotenv
 from data.trello_items import *
@@ -11,10 +11,11 @@ def create_app():
 
    token = os.getenv('TRELLO_TOKEN')
    key = os.getenv('TRELLO_KEY')
+   board_ID = os.getenv('BOARD_ID')
    url = "https://api.trello.com/1/"
    url_member = url + "members/carispang"
    query_string = {"key" : key, "token" : token}
-
+   
    app = Flask(__name__)
    app = Flask(__name__, template_folder='templates')
    app.config.from_object(Config())
@@ -22,7 +23,7 @@ def create_app():
    @app.route('/', methods = ['GET', 'POST'])
    def createUI():
       data_board_cards = get_data_board_cards(url, query_string)
-      data_board_lists = get_board_lists(url, query_string)
+      data_board_lists = get_board_lists(url, query_string, board_ID)
       list_id = get_list('To Do', data_board_lists)
       todo_cards = get_cards_on_list(url, list_id, query_string)
       if request.method == 'POST':
