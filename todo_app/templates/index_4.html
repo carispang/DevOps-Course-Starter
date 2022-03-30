@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}To-Do App{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <h2>To Do</h2>
+        <ul>
+          {% for item in ls.toDo_items %}
+          <tr>
+          <td> {{ item }} </td>
+                {% endfor %}
+            </tr>
+        </ul>
+      <h2>Doing</h2>
+        <ul>
+          {% for item in ls.doing_items %}
+          <tr>
+          <td> {{ item}} </td>
+                {% endfor %}
+            </tr>
+        </ul>
+        <h2>Done</h2>
+        <ul>
+          {% for item in ls.done_items %}
+          <tr>
+          <td> {{ item}} </td>
+                {% endfor %}
+            </tr>
+        </ul>
+    </div>
+  </div>
+{% endblock %}
+

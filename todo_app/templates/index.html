@@ -16,7 +16,7 @@
 </form>
 <form action="/" method="POST">
   <ul style="list-style: none" >
-    {% for card in ls %}
+    {% for card in view_model.items %}
     <li> 
     <input type= "submit" name = "complete_button" class = "form-control" value =  "{{ card.get('name') }}"  > 
     </li>

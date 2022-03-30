@@ -69,13 +69,13 @@ def get_card_info(data_board_cards):
         card_info.append({"name": card['name'], "id": get_card_ID_from_name(card['name'], data_board_cards)})
     return card_info
 
-def get_list_info(data_board_cards):
+def get_list_info(data_board_cards, data_board_lists):
     list_info = []
     for j in data_board_cards:
         list_info.append({"name" : get_list_name(j['idList'], data_board_lists)})
     return list_info
 
-def get_listForLoop(card_info, list_info):
+def get_list_for_loop(card_info, list_info):
     new_list = []
     index = 0
     for i in card_info:

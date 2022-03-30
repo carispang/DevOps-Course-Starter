@@ -1,8 +1,8 @@
-#!
 from flask import Flask, appcontext_popped, render_template, redirect, request
 from flask_config import Config
 from dotenv import load_dotenv, find_dotenv
 from data.trello_items import *
+from data.class_definitions import ViewModel
 
 def create_app():
 
@@ -36,17 +36,18 @@ def create_app():
             done_ID = get_list('Done', data_board_lists)
             complete_method(data_board_cards, url, done_ID, key, token)
             todo_cards = get_cards_on_list(url, list_id, query_string)
-      return render_template('index.html', ls = todo_cards)
+      item_view_model = ViewModel(todo_cards)      
+      return render_template('index.html', view_model = item_view_model)
 
-   @app.route('/ExerciseFive')
-   def exercise_five():
+   @app.route('/Module_3')
+   def module_3():
       data_board_cards = get_data_board_cards(url, query_string)
+      data_board_lists = get_board_lists(url, query_string, board_ID)
       card_info = get_card_info(data_board_cards)
-      list_info = get_list_info(data_board_cards)
-      new_list = get_listForLoop(card_info, list_info)
-      cardNames = get_card_names(data_board_cards)
-    
-      return render_template('index_3.html', ls = new_list)
+      list_info = get_list_info(data_board_cards, data_board_lists)
+      new_list = get_list_for_loop(card_info, list_info)
+      view_model = ViewModel(new_list) 
+      return render_template('index_4.html', ls = view_model)
 
    app.run()
 
