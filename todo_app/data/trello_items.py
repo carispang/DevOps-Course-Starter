@@ -6,7 +6,8 @@ from flask import Flask, render_template, request, redirect, session
 
 def get_board_lists(url, query_string, board_ID):
     url_board_lists = url + "boards/" + board_ID + "/lists"
-    response_board_lists = requests.request("GET", url_board_lists, params = query_string)
+    response_board_lists = requests.get(url_board_lists, query_string)
+
     data_board_lists = json.loads(response_board_lists.text)
     return(data_board_lists)
 
@@ -50,10 +51,9 @@ def get_cards_on_list(url, list_ID, query_string):
         cards.append({"name": i['name']})
     return cards
 
-
-def get_data_board_cards(url, query_string):
-    url_board_cards = url + "boards/" + "w71XY2GF" + "/cards"
-    response_board_cards = requests.request("GET", url_board_cards, params = query_string)
+def get_data_board_cards(url, query_string, board_ID):
+    url_board_cards = url + "boards/" + board_ID + "/cards"
+    response_board_cards = requests.get(url_board_cards, params = query_string)
     data_board_cards = json.loads(response_board_cards.text)    
     return data_board_cards
     
@@ -89,7 +89,6 @@ def complete_method(data_board_cards, url, done_ID, key, token):
       card_ID = get_card_ID_from_name(item_to_complete, data_board_cards)
       update_list(url, card_ID, done_ID, key, token)
       
-
 class ItemClass():
 
    def __init__(self, id, title, status):

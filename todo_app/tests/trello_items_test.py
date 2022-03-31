@@ -1,5 +1,4 @@
 import os
-#os.chdir('/Users/carispang/Documents/my-code/DevOps/DevOps-Course-Starter/todo_app/tests')
 print("Current working directory: {0}".format(os.getcwd()))
 from data.class_definitions import ItemClass, ViewModel
 

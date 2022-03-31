@@ -4,18 +4,18 @@ from dotenv import load_dotenv, find_dotenv
 from data.trello_items import *
 from data.class_definitions import ViewModel
 
+file_path = find_dotenv('.env')
+load_dotenv(file_path, override=True)
+
+token = os.getenv('TRELLO_TOKEN')
+key = os.getenv('TRELLO_KEY')
+board_ID = os.getenv('BOARD_ID')
+url = "https://api.trello.com/1/"
+url_member = url + "members/carispang"
+query_string = {"key" : key, "token" : token}
+
 def create_app():
 
-   file_path = find_dotenv('.env')
-   load_dotenv(file_path)
-
-   token = os.getenv('TRELLO_TOKEN')
-   key = os.getenv('TRELLO_KEY')
-   board_ID = os.getenv('BOARD_ID')
-   url = "https://api.trello.com/1/"
-   url_member = url + "members/carispang"
-   query_string = {"key" : key, "token" : token}
-   
    app = Flask(__name__)
    app = Flask(__name__, template_folder='templates')
    app.config.from_object(Config())
@@ -49,6 +49,7 @@ def create_app():
       view_model = ViewModel(new_list) 
       return render_template('index_4.html', ls = view_model)
 
-   app.run()
+   return app
 
-create_app()
+#app = create_app()
+#app.run()
