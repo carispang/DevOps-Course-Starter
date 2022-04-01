@@ -18,7 +18,7 @@ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-
 
 ## Dependencies
 
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from your preferred shell:
+The project uses a virtual environment to isolate package dependencies. Make sure the install location of poetry is added to your PATH. To create the virtual environment and install required packages, run the following from your preferred shell:
 
 ```bash
 $ poetry install
