@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 import requests
-import os
 import json
 from flask import Flask, render_template, request, redirect, session
 
 def get_board_lists(url, query_string, board_ID):
     url_board_lists = url + "boards/" + board_ID + "/lists"
     response_board_lists = requests.get(url_board_lists, query_string)
-
     data_board_lists = json.loads(response_board_lists.text)
     return(data_board_lists)
 
@@ -44,7 +42,7 @@ def get_card_ID_from_name(cardName, data_board_cards):
 
 def get_cards_on_list(url, list_ID, query_string):
     url_list_of_cards = url + "lists/" + list_ID + "/cards"
-    response_list_cards = requests.request("GET", url_list_of_cards, params = query_string)
+    response_list_cards = requests.get(url_list_of_cards, params = query_string)
     data_cards_lists = json.loads(response_list_cards.text)
     cards = []
     for i in data_cards_lists:

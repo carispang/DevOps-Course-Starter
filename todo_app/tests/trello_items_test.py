@@ -1,6 +1,6 @@
 import os
 print("Current working directory: {0}".format(os.getcwd()))
-from data.class_definitions import ItemClass, ViewModel
+from todo_app.data.class_definitions import ItemClass, ViewModel
 
 #class TestViewModel: 
    # @staticmethod
