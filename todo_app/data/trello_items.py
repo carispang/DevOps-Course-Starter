@@ -51,8 +51,8 @@ def get_cards_on_list(url, list_ID, query_string):
     return cards
 
 
-def get_data_board_cards(url, query_string):
-    url_board_cards = url + "boards/" + "w71XY2GF" + "/cards"
+def get_data_board_cards(url, query_string, board_ID):
+    url_board_cards = url + "boards/" + board_ID + "/cards"
     response_board_cards = requests.request("GET", url_board_cards, params = query_string)
     data_board_cards = json.loads(response_board_cards.text)    
     return data_board_cards
@@ -69,7 +69,7 @@ def get_card_info(data_board_cards):
         card_info.append({"name": card['name'], "id": get_card_ID_from_name(card['name'], data_board_cards)})
     return card_info
 
-def get_list_info(data_board_cards):
+def get_list_info(data_board_cards, data_board_lists):
     list_info = []
     for j in data_board_cards:
         list_info.append({"name" : get_list_name(j['idList'], data_board_lists)})
