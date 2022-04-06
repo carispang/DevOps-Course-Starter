@@ -44,7 +44,7 @@ You need to create an account and generate an API key and token. You will store 
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
 ```bash
-$ poetry run python
+$ poetry run flask run
 ```
 
 You should see output similar to the following:
