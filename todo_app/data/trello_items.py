@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import requests
-import os
+#import os
 import json
 from flask import Flask, render_template, request, redirect, session
 
@@ -66,7 +66,7 @@ def get_list_name(ID, data_board_lists):
 def get_card_info(data_board_cards):
     card_info = []
     for card in data_board_cards:
-        card_info.append({"name": card['name'], "id": get_card_ID_from_name(card['name'], data_board_cards)})
+        card_info.append({"name": card['name'], "id": card['id']})
     return card_info
 
 def get_list_info(data_board_cards, data_board_lists):
