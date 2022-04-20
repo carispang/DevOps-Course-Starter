@@ -83,6 +83,14 @@ optional = false
 python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
 
 [[package]]
+name = "ptest"
+version = "2.0.3"
+description = "light test framework for Python"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "python-dotenv"
 version = "0.14.0"
 description = "Add .env support to your django/flask apps in development and deployments"
@@ -139,7 +147,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "d1898dec7e898cf37674c2fa5430c6ae4b9af774d53c6772365d6027749b8795"
+content-hash = "83ef7a8cdb442b5f14ed16f03ae2cae3612efc3c2ac6ebdb016089935b63357e"
 
 [metadata.files]
 certifi = [
@@ -223,6 +231,9 @@ markupsafe = [
     {file = "MarkupSafe-1.1.1-cp39-cp39-win32.whl", hash = "sha256:22c178a091fc6630d0d045bdb5992d2dfe14e3259760e713c490da5323866c39"},
     {file = "MarkupSafe-1.1.1-cp39-cp39-win_amd64.whl", hash = "sha256:b7d644ddb4dbd407d31ffb699f1d140bc35478da613b441c582aeb7c43838dd8"},
     {file = "MarkupSafe-1.1.1.tar.gz", hash = "sha256:29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b"},
+]
+ptest = [
+    {file = "ptest-2.0.3.tar.gz", hash = "sha256:90665cc382dfe57ca3d7841f1d2dc960a4d8c5db0e6efa3d2220602b6c9ea7bd"},
 ]
 python-dotenv = [
     {file = "python-dotenv-0.14.0.tar.gz", hash = "sha256:8c10c99a1b25d9a68058a1ad6f90381a62ba68230ca93966882a4dbc3bc9c33d"},

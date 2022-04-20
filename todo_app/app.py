@@ -1,21 +1,21 @@
-#!
 from flask import Flask, appcontext_popped, render_template, redirect, request
 from todo_app.flask_config import Config
-import os
 from dotenv import load_dotenv, find_dotenv
 from todo_app.data.trello_items import *
+from todo_app.data.class_definitions import ViewModel
+import os
+
+file_path = find_dotenv('.env')
+load_dotenv(file_path, override=True)
 
 def create_app():
-
-   file_path = find_dotenv('.env')
-   load_dotenv(file_path, override= True)
 
    token = os.getenv('TRELLO_TOKEN')
    key = os.getenv('TRELLO_KEY')
    board_ID = os.getenv('BOARD_ID')
    url = "https://api.trello.com/1/"
    query_string = {"key" : key, "token" : token}
-   
+
    app = Flask(__name__)
    app.config.from_object(Config())
 
@@ -39,4 +39,4 @@ def create_app():
 
    return app
 
-#create_app()
+

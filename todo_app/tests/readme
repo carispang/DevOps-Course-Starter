@@ -1,0 +1,11 @@
+Running Tests
+Tests are stored in the 'tests' subfolder. Unit tests are in trello_items_test.py and 
+integration tests are kept in client_test.py.
+Test Explorer UI and pytest should be installed. 
+The tests run using pytest.
+Pytest will need to be configured to use the correct working directory.
+When using pytest you are able to run the tests individually by clicking 
+the run button which appears over the test in the testing script. 
+Alternatively, you can run all of the tests in a script by clicking the run button in the 
+Test Explorer. You can also run them individually from the Test Explorer pane.
+You can run the tests from the terminal by typign poetry run pytest.

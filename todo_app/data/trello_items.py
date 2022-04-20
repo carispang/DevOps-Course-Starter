@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 import requests
-#import os
 import json
 from flask import Flask, render_template, request, redirect, session
 
 def get_board_lists(url, query_string, board_ID):
     url_board_lists = url + "boards/" + board_ID + "/lists"
-    response_board_lists = requests.request("GET", url_board_lists, params = query_string)
+    response_board_lists = requests.get(url_board_lists, query_string)
     data_board_lists = json.loads(response_board_lists.text)
     return(data_board_lists)
 
@@ -37,18 +36,17 @@ def get_card_ID_from_name(cardName, data_board_cards):
 
 def get_cards_on_list_class(url, list_ID, query_string, data_board_lists):
     url_list_of_cards = url + "lists/" + list_ID + "/cards"
-    response_list_cards = requests.request("GET", url_list_of_cards, params = query_string)
+    response_list_cards = requests.get(url_list_of_cards, params = query_string)
     data_cards_lists = json.loads(response_list_cards.text)
     cards_on_list = []
     list_name = get_list_name(list_ID, data_board_lists)
     for i in data_cards_lists:
-        item = ItemClass.from_trello_card(card = i, list = {'name': list_name})
-        cards_on_list.append(item)
+        cards_on_list.append({"name": i['name']})
     return cards_on_list
-   
+
 def get_data_board_cards(url, query_string, board_ID):
     url_board_cards = url + "boards/" + board_ID + "/cards"
-    response_board_cards = requests.request("GET", url_board_cards, params = query_string)
+    response_board_cards = requests.get(url_board_cards, params = query_string)
     data_board_cards = json.loads(response_board_cards.text)    
     return data_board_cards
     
@@ -58,7 +56,13 @@ def get_list_name(ID, data_board_lists):
             list_name = list['name']
             return list_name
 
-def get_card_class(data_board_cards, data_board_lists):
+def get_list_info(data_board_cards, data_board_lists):
+    list_info = []
+    for j in data_board_cards:
+        list_info.append({"name" : get_list_name(j['idList'], data_board_lists)})
+    return list_info
+
+def get_list_for_loop(card_info, list_info):
     new_list = []
     list_info = []
     index = 0
