@@ -27,12 +27,6 @@ def update_list(url, card_ID, done_ID, key, token):
     url_board_cards = url + "cards/" + card_ID
     response = requests.request("PUT", url_board_cards, params=query_string)
 
-def get_card_names(data_board_cards):
-    cardNames = []
-    for card in data_board_cards:
-        cardNames.append({"name": card['name']})
-    return cardNames
-
 def get_card_ID_from_name(cardName, data_board_cards):
     for card in data_board_cards:
         nameCard = card['name']
@@ -40,14 +34,15 @@ def get_card_ID_from_name(cardName, data_board_cards):
             cardID = card['id']
             return(cardID)
 
-def get_cards_on_list(url, list_ID, query_string):
+def get_cards_on_list_class(url, list_ID, query_string, data_board_lists):
     url_list_of_cards = url + "lists/" + list_ID + "/cards"
     response_list_cards = requests.get(url_list_of_cards, params = query_string)
     data_cards_lists = json.loads(response_list_cards.text)
-    cards = []
+    cards_on_list = []
+    list_name = get_list_name(list_ID, data_board_lists)
     for i in data_cards_lists:
-        cards.append({"name": i['name']})
-    return cards
+        cards_on_list.append({"name": i['name']})
+    return cards_on_list
 
 def get_data_board_cards(url, query_string, board_ID):
     url_board_cards = url + "boards/" + board_ID + "/cards"
@@ -60,12 +55,6 @@ def get_list_name(ID, data_board_lists):
         if list['id'] == ID:
             list_name = list['name']
             return list_name
-    
-def get_card_info(data_board_cards):
-    card_info = []
-    for card in data_board_cards:
-        card_info.append({"name": card['name'], "id": get_card_ID_from_name(card['name'], data_board_cards)})
-    return card_info
 
 def get_list_info(data_board_cards, data_board_lists):
     list_info = []
@@ -75,11 +64,13 @@ def get_list_info(data_board_cards, data_board_lists):
 
 def get_list_for_loop(card_info, list_info):
     new_list = []
+    list_info = []
     index = 0
-    for i in card_info:
-        item = ItemClass.from_trello_card(card = card_info[index], list = list_info[index])
-        new_list.append(item)
+    for card in data_board_cards:
+        list_info.append({"name" : get_list_name(card['idList'], data_board_lists)})
+        item = ItemClass.from_trello_card(card, list = list_info[index])
         index += 1
+        new_list.append(item)
     return new_list
     
 def complete_method(data_board_cards, url, done_ID, key, token):

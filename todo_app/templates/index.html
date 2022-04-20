@@ -16,9 +16,9 @@
 </form>
 <form action="/" method="POST">
   <ul style="list-style: none" >
-    {% for card in view_model.items %}
+    {% for card in ls%}
     <li> 
-    <input type= "submit" name = "complete_button" class = "form-control" value =  "{{ card.get('name') }}"  > 
+    <input type= "submit" name = "complete_button" class = "form-control" value =  "{{ card['title'] }}"  > 
     </li>
     {% endfor %}
   </ul>
